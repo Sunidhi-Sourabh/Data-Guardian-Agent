@@ -1,6 +1,6 @@
 # 🛡️ DataGuardian Agent  
 **Privacy-first hygiene sentinel for indie builders**  
-Built for the TiDB AgentX Hackathon by [Sunidhi Sourabh] (https://github.com/sunidhisourabh)
+Built for the TiDB AgentX Hackathon by [Sunidhi Sourabh]
 
 ---
 
@@ -72,6 +72,9 @@ Built for the TiDB AgentX Hackathon. Powered by TiDB Serverless, Groq GPT-OSS, a
 Sunidhi Sourabh
 Student founder, full-stack developer, and indie agent architect
 Focused on privacy-first workflows, cinematic demos, and credential hygiene
+
+🔗 Connect with the Author
+
 
 ---
 
