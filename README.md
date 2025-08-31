@@ -1,6 +1,6 @@
 # 🛡️ DataGuardian Agent  
 **Privacy-first hygiene sentinel for indie builders**  
-Built for the TiDB AgentX Hackathon by [Sunidhi Sourabh](https://github.com/sunidhisourabh)
+Built for the TiDB AgentX Hackathon by [Sunidhi Sourabh] (https://github.com/sunidhisourabh)
 
 ---
 
