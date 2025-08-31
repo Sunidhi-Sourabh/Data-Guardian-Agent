@@ -73,8 +73,10 @@ Sunidhi Sourabh
 Student founder, full-stack developer, and indie agent architect
 Focused on privacy-first workflows, cinematic demos, and credential hygiene
 
-🔗 Connect with the Author
-
+🔗 Connect :-
+- [Devpost]: (https://devpost.com/sunidhi-sourabh)
+-[Discord]: (https://discord.gg/KBstZbht) 
+[Telegram]: (https://t.me/OneStackAI)  
 
 ---
 
