@@ -62,11 +62,17 @@ python trigger_alert.py --mode webhook
 - Groq API key for GPT-OSS
 - Webhook endpoint (Slack, Discord, etc.)
 
-📜 License
+---
+
+##📜 License
 This project is licensed under the MIT License.
 
-🙌 Acknowledgments
+---
+
+##🙌 Acknowledgments
 Built for the TiDB AgentX Hackathon. Powered by TiDB Serverless, Groq GPT-OSS, and indie-grade resilience.
+
+---
 
 ##💡 Author
 Sunidhi Sourabh
