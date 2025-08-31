@@ -64,17 +64,17 @@ python trigger_alert.py --mode webhook
 
 ---
 
-##📜 License
+**📜 License**
 This project is licensed under the MIT License.
 
 ---
 
-##🙌 Acknowledgments
+🙌 Acknowledgments
 Built for the TiDB AgentX Hackathon. Powered by TiDB Serverless, Groq GPT-OSS, and indie-grade resilience.
 
 ---
 
-##💡 Author
+**💡 Author**
 Sunidhi Sourabh
 Student founder, full-stack developer, and indie agent architect
 Focused on privacy-first workflows, cinematic demos, and credential hygiene
