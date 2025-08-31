@@ -1,3 +1,8 @@
+"""
+Ingests sample logs into TiDB Serverless for credential hygiene analysis.
+Each log is stored with a timestamp and placeholder risk score.
+"""
+
 import mysql.connector
 from dotenv import load_dotenv
 import os
