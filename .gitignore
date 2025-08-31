@@ -1,1 +1,18 @@
+# 🔐 Credential Hygiene
+.env
 
+# 🧠 Python Artifacts
+__pycache__/
+*.pyc
+
+# 🧪 Logs and Temp Files
+*.log
+*.tmp
+
+# 📦 OS-specific
+.DS_Store
+Thumbs.db
+
+# 🧰 IDE Configs
+.vscode/
+.idea/
