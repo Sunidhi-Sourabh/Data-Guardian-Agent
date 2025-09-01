@@ -1,12 +1,17 @@
 import os
 import requests
 import argparse
+import pymysql
 from dotenv import load_dotenv
 from datetime import datetime
 
 # Load credentials
 load_dotenv()
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")
+TIDB_HOST = os.getenv("TIDB_HOST")
+TIDB_USER = os.getenv("TIDB_USER")
+TIDB_PASSWORD = os.getenv("TIDB_PASSWORD")
+TIDB_DATABASE = os.getenv("TIDB_DATABASE")
 
 # CLI flags
 parser = argparse.ArgumentParser(description="Trigger alert from DataGuardian Agent")
@@ -21,6 +26,23 @@ if not os.path.exists(report_path):
 
 with open(report_path, "r", encoding="utf-8") as file:
     report_content = file.read()
+
+# Optional: Verify TiDB connection before alerting
+print("🔗 Verifying TiDB connection...")
+try:
+    conn = pymysql.connect(
+        host=TIDB_HOST,
+        user=TIDB_USER,
+        password=TIDB_PASSWORD,
+        database=TIDB_DATABASE,
+        ssl={"ssl": {}},
+        connect_timeout=10
+    )
+    conn.close()
+    print("✅ TiDB connection verified.")
+except pymysql.MySQLError as err:
+    print(f"❌ TiDB connection failed: {err}")
+    exit(1)
 
 # Format payload for Slack/Discord markdown
 formatted_payload = {
@@ -45,5 +67,6 @@ else:
     log_entry = f"[{timestamp}] 📢 Local alert displayed.\n"
 
 # Log alert status
+os.makedirs("demo_assets", exist_ok=True)
 with open("demo_assets/alert_log.txt", "a", encoding="utf-8") as log_file:
     log_file.write(log_entry)
