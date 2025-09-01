@@ -1,1 +1,24 @@
+body.dark-mode {
+    background-color: #121212;
+    color: #f0f0f0;
+}
 
+.card {
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.alert-warning {
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.6);
+    font-weight: 500;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #343a40;
+    color: #fff;
+}
+
+canvas {
+    max-height: 300px;
+}
