@@ -1,14 +1,27 @@
-"""
-Ingests sample logs into TiDB Serverless for credential hygiene analysis.
-Each log is stored with a timestamp and placeholder risk score.
-"""
-
 import mysql.connector
 from dotenv import load_dotenv
 import os
 from datetime import datetime
+from dotenv import load_dotenv
 
-# Load credentials from .env
+# 🔍 Check if .env exists
+env_path = os.path.join(os.getcwd(), ".env")
+if not os.path.isfile(env_path):
+    print("⚠️ .env not found. Trying .env.txt instead...")
+    env_path = os.path.join(os.getcwd(), ".env.txt")
+
+# Load credentials from .env or .env.txt
+load_dotenv(dotenv_path=env_path)
+
+# Debug prints to verify .env loading
+print("🔍 Debugging .env load:")
+print("TIDB_HOST:", os.getenv("TIDB_HOST"))
+print("TIDB_USER:", os.getenv("TIDB_USER"))
+print("TIDB_PASSWORD:", os.getenv("TIDB_PASSWORD"))
+print("TIDB_DATABASE:", os.getenv("TIDB_DATABASE"))
+print("")
+
+# Assign variables
 load_dotenv()
 TIDB_HOST = os.getenv("TIDB_HOST")
 TIDB_USER = os.getenv("TIDB_USER")
@@ -25,6 +38,7 @@ sample_logs = [
 ]
 
 # Connect to TiDB
+print("🔗 Connecting to TiDB...")
 conn = mysql.connector.connect(
     host=TIDB_HOST,
     user=TIDB_USER,
@@ -32,9 +46,12 @@ conn = mysql.connector.connect(
     database=TIDB_DATABASE,
     ssl_verify_cert=False
 )
+print("✅ Connection established.")
+
 cursor = conn.cursor()
 
 # Insert logs into TiDB
+print("📥 Inserting logs...")
 for log in sample_logs:
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     risk_score = 0.0  # Placeholder; will be updated by search module
