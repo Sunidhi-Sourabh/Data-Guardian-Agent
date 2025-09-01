@@ -8,6 +8,10 @@
     <style>
         body.dark-mode { background-color: #121212; color: #f0f0f0; }
         .card { margin-bottom: 20px; }
+        .alert-warning {
+            box-shadow: 0 0 10px rgba(255, 193, 7, 0.6);
+            font-weight: 500;
+        }
     </style>
 </head>
 <body class="container py-4">
@@ -18,6 +22,12 @@
             <a href="/download" class="btn btn-outline-primary">⬇️ Download Report</a>
         </div>
     </div>
+
+    {% if mock_mode %}
+    <div class="alert alert-warning text-center" role="alert">
+        ⚠️ <strong>Running in mock mode.</strong> Configure <code>.env</code> for full functionality.
+    </div>
+    {% endif %}
 
     <div class="card p-3">
         <h4>📊 Risk Score Distribution</h4>
@@ -43,6 +53,10 @@
         </ul>
     </div>
 
+    <!-- Embed backend data as JSON -->
+    <script id="risk-data" type="application/json">{{ risk_counts | tojson }}</script>
+    <script id="pattern-data" type="application/json">{{ pattern_counts | tojson }}</script>
+
     <script>
         function toggleDarkMode() {
             document.body.classList.toggle("dark-mode");
@@ -52,25 +66,30 @@
             document.body.classList.add("dark-mode");
         }
 
-        // Sample chart data (replace with real AJAX later)
-        const riskChart = new Chart(document.getElementById('riskChart'), {
+        // Parse embedded JSON data
+        const riskData = JSON.parse(document.getElementById("risk-data").textContent);
+        const patternData = JSON.parse(document.getElementById("pattern-data").textContent);
+
+        // Render Risk Score Distribution Chart
+        new Chart(document.getElementById('riskChart'), {
             type: 'pie',
             data: {
-                labels: ['Critical', 'Moderate', 'Low', 'Clean'],
+                labels: Object.keys(riskData),
                 datasets: [{
-                    data: [2, 3, 1, 4],
+                    data: Object.values(riskData),
                     backgroundColor: ['#dc3545', '#fd7e14', '#198754', '#6c757d']
                 }]
             }
         });
 
-        const patternChart = new Chart(document.getElementById('patternChart'), {
+        // Render Pattern Frequency Chart
+        new Chart(document.getElementById('patternChart'), {
             type: 'bar',
             data: {
-                labels: ['api_key=', 'no fallback', 'open access', 'missing .env', 'malformed payload'],
+                labels: Object.keys(patternData),
                 datasets: [{
                     label: 'Matches',
-                    data: [3, 2, 1, 2, 1],
+                    data: Object.values(patternData),
                     backgroundColor: '#0d6efd'
                 }]
             },
