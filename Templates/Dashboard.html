@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DataGuardian Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body.dark-mode { background-color: #121212; color: #f0f0f0; }
+        .card { margin-bottom: 20px; }
+    </style>
+</head>
+<body class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>🛡️ DataGuardian Agent Dashboard</h1>
+        <div>
+            <button onclick="toggleDarkMode()" class="btn btn-outline-secondary">🌙 Toggle Dark Mode</button>
+            <a href="/download" class="btn btn-outline-primary">⬇️ Download Report</a>
+        </div>
+    </div>
+
+    <div class="card p-3">
+        <h4>📊 Risk Score Distribution</h4>
+        <canvas id="riskChart"></canvas>
+    </div>
+
+    <div class="card p-3">
+        <h4>🔍 Pattern Frequency</h4>
+        <canvas id="patternChart"></canvas>
+    </div>
+
+    <div class="card p-3">
+        <h4>🧠 Advisory Panel</h4>
+        <div>{{ advisory|safe }}</div>
+    </div>
+
+    <div class="card p-3">
+        <h4>📡 Alert Log Viewer</h4>
+        <ul>
+            {% for entry in alerts %}
+                <li>{{ entry }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+            localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
+        }
+        if (localStorage.getItem("darkMode") === "true") {
+            document.body.classList.add("dark-mode");
+        }
+
+        // Sample chart data (replace with real AJAX later)
+        const riskChart = new Chart(document.getElementById('riskChart'), {
+            type: 'pie',
+            data: {
+                labels: ['Critical', 'Moderate', 'Low', 'Clean'],
+                datasets: [{
+                    data: [2, 3, 1, 4],
+                    backgroundColor: ['#dc3545', '#fd7e14', '#198754', '#6c757d']
+                }]
+            }
+        });
+
+        const patternChart = new Chart(document.getElementById('patternChart'), {
+            type: 'bar',
+            data: {
+                labels: ['api_key=', 'no fallback', 'open access', 'missing .env', 'malformed payload'],
+                datasets: [{
+                    label: 'Matches',
+                    data: [3, 2, 1, 2, 1],
+                    backgroundColor: '#0d6efd'
+                }]
+            },
+            options: {
+                indexAxis: 'y'
+            }
+        });
+    </script>
+</body>
+</html>
