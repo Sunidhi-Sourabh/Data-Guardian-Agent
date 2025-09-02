@@ -1,0 +1,511 @@
+Microsoft Windows [Version 10.0.26100.5074]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\admin>cd "C:\Users\admin\OneDrive\Desktop\2026SOS\HACKATHONS\Data Guardian Agent"
+
+C:\Users\admin\OneDrive\Desktop\2026SOS\HACKATHONS\Data Guardian Agent>venv\Scripts\activate
+
+(venv) C:\Users\admin\OneDrive\Desktop\2026SOS\HACKATHONS\Data Guardian Agent>python run_pipeline.py
+🚀 Running DataGuardian Agent Pipeline...
+
+🔧 Ingesting logs...
+🔍 Debugging .env load:
+TIDB_HOST: gateway01.ap-northeast-1.prod.aws.tidbcloud.com
+TIDB_USER: 7GoMhJWyDf3WUfN.root
+TIDB_PASSWORD: vCEHR58TdJUgJABu
+TIDB_DATABASE: data_guardian
+
+🔗 Connecting to TiDB (no DB)...
+✅ Database 'data_guardian' created or already exists.
+🔗 Connecting to TiDB → database: data_guardian
+✅ Connection established.
+📦 Table 'logs' verified.
+📥 Inserting logs...
+📝 Inserted log: 'api_key=12345EXPOSED' at 2025-09-02 03:02:00
+📝 Inserted log: 'User login failed: no fallback configured' at 2025-09-02 03:02:00
+📝 Inserted log: 'Access granted without token validation' at 2025-09-02 03:02:00
+📝 Inserted log: 'Missing .env discipline in deployment' at 2025-09-02 03:02:01
+📝 Inserted log: 'Secure endpoint hit with malformed payload' at 2025-09-02 03:02:01
+✅ Logs ingested into TiDB successfully.
+🔧 Scoring risks...
+🔍 Debugging .env load:
+TIDB_HOST: gateway01.ap-northeast-1.prod.aws.tidbcloud.com
+TIDB_USER: 7GoMhJWyDf3WUfN.root
+TIDB_PASSWORD: vCEHR58TdJUgJABu
+TIDB_DATABASE: data_guardian
+
+🔗 Connecting to TiDB...
+✅ Connection established.
+📥 Fetching logs from TiDB...
+📦 Total logs fetched: 15
+
+🧠 Scanning logs for risk patterns...
+📝 Scanning log 1: 'api_key=12345EXPOSED'
+   🔍 Matched pattern: 'api_key=' → Risk: 0.9
+⚠️ Risk detected → Score updated to 0.9
+
+📝 Scanning log 2: 'User login failed: no fallback configured'
+   🔍 Matched pattern: 'no fallback' → Risk: 0.7
+⚠️ Risk detected → Score updated to 0.7
+
+📝 Scanning log 3: 'Access granted without token validation'
+✅ No risk patterns matched.
+
+📝 Scanning log 4: 'Missing .env discipline in deployment'
+   🔍 Matched pattern: 'missing .env' → Risk: 0.6
+⚠️ Risk detected → Score updated to 0.6
+
+📝 Scanning log 5: 'Secure endpoint hit with malformed payload'
+   🔍 Matched pattern: 'malformed payload' → Risk: 0.5
+⚠️ Risk detected → Score updated to 0.5
+
+📝 Scanning log 30001: 'api_key=12345EXPOSED'
+   🔍 Matched pattern: 'api_key=' → Risk: 0.9
+⚠️ Risk detected → Score updated to 0.9
+
+📝 Scanning log 30002: 'User login failed: no fallback configured'
+   🔍 Matched pattern: 'no fallback' → Risk: 0.7
+⚠️ Risk detected → Score updated to 0.7
+
+📝 Scanning log 30003: 'Access granted without token validation'
+✅ No risk patterns matched.
+
+📝 Scanning log 30004: 'Missing .env discipline in deployment'
+   🔍 Matched pattern: 'missing .env' → Risk: 0.6
+⚠️ Risk detected → Score updated to 0.6
+
+📝 Scanning log 30005: 'Secure endpoint hit with malformed payload'
+   🔍 Matched pattern: 'malformed payload' → Risk: 0.5
+⚠️ Risk detected → Score updated to 0.5
+
+📝 Scanning log 60001: 'api_key=12345EXPOSED'
+   🔍 Matched pattern: 'api_key=' → Risk: 0.9
+⚠️ Risk detected → Score updated to 0.9
+
+📝 Scanning log 60002: 'User login failed: no fallback configured'
+   🔍 Matched pattern: 'no fallback' → Risk: 0.7
+⚠️ Risk detected → Score updated to 0.7
+
+📝 Scanning log 60003: 'Access granted without token validation'
+✅ No risk patterns matched.
+
+📝 Scanning log 60004: 'Missing .env discipline in deployment'
+   🔍 Matched pattern: 'missing .env' → Risk: 0.6
+⚠️ Risk detected → Score updated to 0.6
+
+📝 Scanning log 60005: 'Secure endpoint hit with malformed payload'
+   🔍 Matched pattern: 'malformed payload' → Risk: 0.5
+⚠️ Risk detected → Score updated to 0.5
+
+✅ Risk scanning completed.
+🔧 Summarizing risks...
+🔗 Connecting to TiDB...
+✅ Connection established.
+📥 Fetching logs from TiDB...
+📊 Total logs scanned: 15
+⚠️ Risky logs detected: 12
+🔥 Highest risk score: 0.9
+🔍 Top matched patterns:
+   - api_key=: 3 matches
+   - no fallback: 3 matches
+   - missing .env: 3 matches
+   - malformed payload: 3 matches
+🧠 Requesting GPT-OSS advisory...
+🧾 Raw response from GPT-OSS:
+200
+{"id":"chatcmpl-bb341ccf-be29-4cd7-90f0-c7359567319b","object":"chat.completion","created":1756762330,"model":"openai/gpt-oss-20b","choices":[{"index":0,"message":{"role":"assistant","content":"## 1. Quick‑Fire Assessment\n\n| Severity | Log | What it tells us | Immediate risk |\n|----------|-----|------------------|----------------|\n| 🔴 Critical | `api_key=12345EXPOSED` | **Plain‑text API key in the logs** – the key is now visible to anyone who can read the log file or the console. | **High** – an attacker can impersonate your service, exfiltrate data, or pay for services. |\n| 🟠 Moderate| `User login failed: no fallback configured` | No secondary authentication path (e.g., 2FA, recovery email, phone). | **Medium** – if a legitimate user is locked out, it can become a denial‑of‑service vector. |\n| 🟠 Moderate | `Missing .env discipline in deployment` | Secrets are likely baked into the code or committed to the repository. | **Medium** – increases the surface area for leaks and makes rotation hard. |\n| 🟢 Low | `Secure endpoint hit with malformed payload` |Malformed request – could be a benign test or an attempt to probe for vulnerabilities. | **Low** – still worth hardening. |\n\n**Bottom line:** The repeated `api_key=12345EXPOSED` entries indicate a **credential leakage** that must be addressed immediately. The other moderate issues point to *poor hygiene* that will make future incidents harder to contain.\n\n---\n\n## 2. What’s Wrong? – Detailed Breakdown\n\n| Category | Problem | Why it matters |\n|----------|---------|----------------|\n| **Credential Leak** | API key printed in logs | Anyone with read access to the logs can reuse the key.|\n| | Hard‑coded or exposed in code | Hard to rotate; may be in source control. |\n| **Fallback Gap** | No secondary auth path | Users stuck, potential for credential stuffing attacks. |\n| **Hygiene Gap** | No .env discipline | Secrets are in code, not environment. |\n| | No log scrubbing | Sensitive data stays in logs. |\n| | No payload validation | Opento injection or DoS. |\n\n---\n\n## 3. Recovery Plan – Immediate \u0026 Long‑Term\n\n### 3.1 Immediate Actions (≤ 1 h)\n\n| Step | What | Why |\n|------|------|-----|\n| **Revoke \u0026 Rotate** | Revoke the exposed API key, generate a newone, and update all systems that use it. | Stops any current misuse. |\n| **Audit the Source** | Search the repo \u0026CI logs for `12345` or the key pattern. | Detect if the key is stored elsewhere. |\n| **Purge Logs** | Delete or redactthe log entries that contain the key. | Prevent future accidental exposure. |\n| **Disable Logging of Sensitive Data** | Temporarily suppress logging of any request headers, query params, or body that might contain secrets. | Stops the leak from continuing. |\n| **Notify Stakeholders** | Inform security, ops, and product teams. | Enables coordinated response and communication. |\n| **Run a Quick Scan** | Use a secret‑scanning tool (e.g., TruffleHog, GitLeaks, or your own regex) to find other leaks. | Catch any additional exposed credentials. |\n\n### 3.2 Hygiene \u0026 Process Fixes (≤ 1 day)\n\n| Fix | Implementation |\n|-----|----------------|\n| **.env Discipline** | • Store all secrets in `.env` files **only** for local dev.\u003cbr\u003e• Use environment variables in production (e.g., via Docker secrets, K8s secrets, or CI/CD env vars). |\n| **Secrets Manager** | Adopt a dedicated secrets manager (HashiCorp Vault, AWS Secrets Manager, GCP Secret Manager). |\n| **CI/CD Pipeline** | • Mark secrets as protected variables.\u003cbr\u003e• Prevent them from being printed in logs (`echo $SECRET` → `echo \"******\"`). |\n| **Code Review Checklist** | Add a “No Secrets in Code” rule. |\n| **Automated Secret Scanning** | Run scans on every PR and on a nightly schedule. |\n| **Logging Policy** | • Strip out headers, query params, and body fields that contain secrets.\u003cbr\u003e• Use a log‑scrubbing middleware. |\n| **Encryption at Rest** | Ensure logs are encrypted (e.g., CloudWatch logs encryption, Loki, Elasticsearch with encryption).|\n| **Access Controls** | Limit who can read logs to the minimum required. |\n| **Monitoring / Alerting** | Create alerts for any new `api_key=` patterns in logs. |\n\n### 3.3 Authentication \u0026 Fallback Improvements (≤ 2 days)\n\n| Gap | Fix |\n|-----|-----|\n| No fallback | • Implement 2FA (TOTP, SMS, Authenticator app).\u003cbr\u003e• Add “Forgot password” flow that uses a verified email or phone. |\n| No rate limiting | Add per‑IP and per‑user rate limits to prevent brute force. |\n| No payload validation | Use a schema validator (JSON Schema, Joi, etc.) and reject malformed requests early. |\n| WAF / IDS | Deploy a Web Application Firewall or an IDS that flags malformed or suspicious payloads. |\n\n### 3.4 Long‑Term Strategy (≥ 1 week)\n\n| Initiative | Goal |\n|------------|------|\n| **Secret Lifecycle Management** |Automate rotation (e.g., every 90 days) and enforce revocation on compromise. |\n| **Zero‑Trust Architecture** | Treat all network traffic as untrusted; enforce least‑privilege for services. |\n| **Security Training** | Regular training for developers on secrets hygiene, logging, and secure coding. |\n| **Incident Response Playbook** | Define steps for credential leaks, including communication templates. |\n| **Compliance Audits** | Run periodic audits (SOC‑2, ISO 27001, etc.) to ensure controls are effective. |\n| **Continuous Monitoring** | Deploy SIEM or SOAR that correlates logs, detects anomalies, and triggers auto‑remediation. |\n\n---\n\n## 4. Practical Checklist\n\n| ✅ | Item | Status |\n|----|------|--------|\n|  | 🔴 **Revoke \u0026 rotate API key** | ☐ |\n|  | 🔴 **Delete/Redact exposed log entries** | ☐ |\n|  | 🔴 **Audit source for other leaks** | ☐ |\n|  | 🟠 **Implement .env discipline** | ☐ |\n|  | 🟠 **Move secrets to a secretsmanager** | ☐ |\n|  | 🟠 **Add log‑scrubbing middleware** | ☐ |\n|  | 🟠 **Add fallback auth (2FA, recovery)** | ☐ |\n| | 🟠 **Add rate limiting** | ☐ |\n|  | 🟠 **Validate incoming payloads** | ☐ |\n|  | 🟠 **Deploy WAF / IDS** | ☐ |\n|| 🟠 **Set up automated secret scanning** | ☐ |\n|  | 🟠 **Encrypt logs at rest** | ☐ |\n|  | 🟠 **Restrict log access** | ☐ |\n|  | 🟠 **Create monitoring alerts** | ☐ |\n|  | 🟠 **Run compliance audit** | ☐ |\n\nMark each item as “Done” once you’ve completed it. Keep the checklist in your project’s repo or as a Jira epic to ensure visibility.\n\n---\n\n##5. Quick‑Start Scripts\n\n### 5.1 Redacting Logs (Node.js example)\n\n```js\n// logger.js\nconst winston = require('winston');\nconst { combine, timestamp, printf } = winston.format;\n\nconst redact = (info) =\u003e {\n  if (info.message.includes('api_key=')) {\n    info.message = info.message.replace(/api_key=\\w+/g, 'api_key=REDACTED');\n  }\n  return info;\n};\n\nconst logger = winston.createLogger({\n  level: 'info',\n  format: combine(\n    timestamp(),\n    redact(),\n   printf(({ timestamp, level, message }) =\u003e `${timestamp} [${level}]: ${message}`)\n  ),\n  transports: [new winston.transports.Console()]\n});\n\nmodule.exports = logger;\n```\n\n### 5.2 .env‑Based Secret Injection\n\n```bash\n# Docker Compose example\nversion: '3.8'\nservices:\n  app:\n    image: myapp:latest\n    env_file:\n      - .env\n    environment:\n      - DATABASE_URL=${DATABASE_URL}\n      - API_KEY=${API_KEY}\n```\n\nMake sure `.env` is **never** committed(`.gitignore`).\n\n### 5.3 Secret Rotation Script (Python)\n\n```python\nimport boto3\nfrom botocore.exceptions import ClientError\n\ndef rotate_api_key(name):\n    client = boto3.client('secretsmanager')\n    try:\n        # Create a new secret value\n        new_value = 'new-secret-' + secrets.token_hex(16)\n        client.put_secret_value(SecretId=name, SecretString=new_value)\n        # Update config / env files (pseudo‑code)\n        update_app_config(name, new_value)\n       print(f\"Rotated {name}\")\n    except ClientError as e:\n        print(f\"Error rotating {name}: {e}\")\n\nif __name__ == \"__main__\":\n    rotate_api_key('myapp/api_key')\n```\n\n---\n\n## 6. Final Take‑Home\n\n1. **The exposed API key is a *critical* breach.** Revoke, rotate, and purge logs now.\n2. **No .env discipline + no fallback auth** are *moderate hygiene gaps* that will make future leaks harder to manage. Fix them before the next incident.\n3. **Automate everything** – secrets, logging, scanning, and rotation.  \n4. **Treat logs as a first‑class asset** – encrypt, restrict,and scrub them.  \n5. **Add fallback \u0026 validation** to protect users and services from denial‑of‑service or injection attacks.\n\nOnce the immediate actions are done, move into the hygiene checklist and establish a continuous improvement loop. This will transform the incident from a one‑off leak into a learning opportunity that hardens your entire stack.","reasoning":"We need to analyze logs for credential leaks, fallback gaps, hygiene issues. Suggest recovery steps like .env discipline, fallback logic, or credential scrub. Logs repeated many times. We should produce a thorough analysis.Also mention credential exposure, missing .env discipline, missing fallback logic, and low severity but note secure endpoint hit with malformed payload. Provide recovery steps: rotate credentials, remove from logs, use environment variables, implement secrets management, use .env discipline, fallback logic, scrubbing logs, monitoring. Also mention audit, compliance. Provide steps. Also mention to use log sanitization, log rotation, encryption at rest. Provide suggestions. Also mention that logs repeated indicates potential automated scanning or misconfiguration. Suggest to add rate limiting, detection. Provide a checklist. Provide timeline. Also mention that the credential is exposed multiple times, likely a serious breach. Provide immediate actions: revoke, rotate. Provide long-term: use secrets manager, use vault, use .env, use CI/CD secrets injection, etc.\n\nAlso mention fallback gaps: user login failed: no fallback configured. So need to implement fallback authentication. Provide suggestions: use multi-factor, fallback to email-based recovery, etc.\n\nAlso mention hygiene issues: missing .env discipline in deployment. So need to enforce .env usage, no hard-coded secrets, use environment variable injection, use CI/CD pipeline secrets.\n\nAlso mention secure endpoint hit with malformed payload: could be injection or scanning. Suggest to validate payloads, use sanitization, use rate limiting, use WAF.\n\nWe also mention log scrubbing: ensure logs do not contain credentials. Use log filtering. Use structured logging.\n\nAlso mentioncredential scrub: remove credentials from logs, use log anonymization. Use encryption.\n\nWe need to produce a comprehensive answer.\n\nLet's produce."},"logprobs":null,"finish_reason":"stop"}],"usage":{"queue_time":0.046430278,"prompt_tokens":263,"prompt_time":0.017106661,"completion_tokens":2522,"completion_time":2.255746858,"total_tokens":2785,"total_time":2.272853519},"usage_breakdown":null,"system_fingerprint":"fp_4c4aa6a4a4","x_groq":{"id":"req_01k43k3k4afykrfhpzn7hpy7y5"},"service_tier":"on_demand"}
+
+🧠 GPT-OSS Summary & Recommendations:
+
+## 1. Quick‑Fire Assessment
+
+| Severity | Log | What it tells us | Immediate risk |
+|----------|-----|------------------|----------------|
+| 🔴 Critical | `api_key=12345EXPOSED` | **Plain‑text API key in the logs** – the key is now visible to anyone who can read the log file or the console. | **High** – an attacker can impersonate your service, exfiltrate data, or pay for services. |
+| 🟠 Moderate | `User login failed: no fallback configured` | No secondary authentication path (e.g., 2FA, recovery email, phone). | **Medium** – if a legitimate user is locked out, it can become a denial‑of‑service vector. |
+| 🟠 Moderate | `Missing .env discipline in deployment` | Secrets are likely baked into the code or committed to the repository. | **Medium** – increases the surface area for leaks and makes rotation hard. |
+| 🟢 Low | `Secure endpoint hit with malformed payload` | Malformed request – could be a benign test or an attempt to probe for vulnerabilities. | **Low** – still worth hardening. |
+
+**Bottom line:** The repeated `api_key=12345EXPOSED` entries indicate a **credential leakage** that must be addressed immediately. The other moderate issues point to *poor hygiene* that will make future incidents harder to contain.
+
+---
+
+## 2. What’s Wrong? – Detailed Breakdown
+
+| Category | Problem | Why it matters |
+|----------|---------|----------------|
+| **Credential Leak** | API key printed in logs | Anyone with read access to the logs can reuse the key. |
+| | Hard‑coded or exposed in code | Hard to rotate; may be in source control. |
+| **Fallback Gap** | No secondary auth path | Users stuck, potential for credential stuffing attacks. |
+| **Hygiene Gap** | No .env discipline | Secrets are in code, not environment. |
+| | No log scrubbing | Sensitive data stays in logs. |
+| | No payload validation | Open to injection or DoS. |
+
+---
+
+## 3. Recovery Plan – Immediate & Long‑Term
+
+### 3.1 Immediate Actions (≤ 1 h)
+
+| Step | What | Why |
+|------|------|-----|
+| **Revoke & Rotate** | Revoke the exposed API key, generate a new one, and update all systems that use it. | Stops anycurrent misuse. |
+| **Audit the Source** | Search the repo & CI logs for `12345` or the key pattern. | Detect if the key is stored elsewhere. |
+| **Purge Logs** | Delete or redact the log entries that contain the key. | Prevent future accidental exposure. |
+| **Disable Logging of Sensitive Data** | Temporarily suppress logging of any request headers, query params, or body that might contain secrets. | Stops the leak from continuing. |
+| **Notify Stakeholders** | Inform security, ops, and product teams. | Enables coordinated response and communication. |
+| **Run a Quick Scan** | Use a secret‑scanning tool (e.g., TruffleHog, GitLeaks, or your own regex) to find other leaks. | Catch any additional exposed credentials. |
+
+### 3.2 Hygiene & Process Fixes (≤ 1 day)
+
+| Fix | Implementation |
+|-----|----------------|
+| **.env Discipline** | • Store all secrets in `.env` files **only** for local dev.<br>• Use environment variables in production (e.g., via Docker secrets, K8s secrets, or CI/CD env vars). |
+| **Secrets Manager** | Adopt a dedicated secrets manager (HashiCorp Vault, AWS Secrets Manager, GCP Secret Manager). |
+| **CI/CD Pipeline** | • Mark secrets as protected variables.<br>• Prevent them from being printed in logs (`echo $SECRET` → `echo "******"`). |
+| **Code Review Checklist** | Add a “No Secrets in Code” rule. |
+| **Automated Secret Scanning** | Run scans on every PR and on a nightly schedule. |
+| **Logging Policy** | • Strip out headers, query params, and body fields that contain secrets.<br>• Use a log‑scrubbing middleware. |
+| **Encryption at Rest** | Ensure logs are encrypted (e.g., CloudWatch logs encryption, Loki, Elasticsearch with encryption). |
+| **Access Controls** | Limit who can read logs to the minimum required. |
+| **Monitoring / Alerting** | Create alerts for any new `api_key=` patterns in logs. |
+
+### 3.3 Authentication & Fallback Improvements (≤ 2 days)
+
+| Gap | Fix |
+|-----|-----|
+| No fallback | • Implement 2FA (TOTP, SMS, Authenticator app).<br>• Add “Forgot password” flow that uses a verified email or phone. |
+| No rate limiting | Add per‑IP and per‑user rate limits to prevent brute force. |
+| No payload validation | Use a schema validator (JSON Schema, Joi, etc.) and reject malformed requests early. |
+| WAF / IDS | Deploy a Web Application Firewall or an IDS that flags malformed or suspicious payloads. |
+
+### 3.4 Long‑Term Strategy (≥ 1 week)
+
+| Initiative | Goal |
+|------------|------|
+| **Secret Lifecycle Management** | Automate rotation (e.g., every 90 days) and enforce revocation on compromise. |
+| **Zero‑Trust Architecture** | Treat all network traffic as untrusted; enforce least‑privilege for services. |
+| **Security Training** | Regular training for developers on secrets hygiene, logging, and secure coding. |
+| **Incident Response Playbook** | Define steps for credential leaks, including communication templates. |
+| **Compliance Audits** | Run periodic audits (SOC‑2, ISO 27001, etc.) to ensure controls are effective. |
+| **Continuous Monitoring** | Deploy SIEM or SOAR that correlates logs, detects anomalies, and triggers auto‑remediation. |
+
+---
+
+## 4. Practical Checklist
+
+| ✅ | Item | Status |
+|----|------|--------|
+|  | 🔴 **Revoke & rotate API key** | ☐ |
+|  | 🔴 **Delete/Redact exposed log entries** | ☐ |
+|  | 🔴 **Audit source for other leaks** | ☐ |
+|  | 🟠 **Implement .env discipline** | ☐ |
+|  | 🟠 **Move secrets to a secrets manager** | ☐ |
+|  | 🟠 **Add log‑scrubbing middleware** | ☐ |
+|  | 🟠 **Add fallback auth (2FA, recovery)** | ☐ |
+|  | 🟠 **Add rate limiting** | ☐ |
+|  | 🟠 **Validate incoming payloads** | ☐ |
+|  | 🟠 **Deploy WAF / IDS** | ☐ |
+|  | 🟠 **Set up automated secret scanning** | ☐ |
+|  | 🟠 **Encrypt logs at rest** | ☐ |
+|  | 🟠 **Restrict log access** | ☐ |
+|  | 🟠 **Create monitoring alerts** | ☐ |
+|  | 🟠 **Run compliance audit** | ☐ |
+
+Mark each item as “Done” once you’ve completed it. Keep the checklist in your project’s repo or as a Jira epic to ensure visibility.
+
+---
+
+## 5. Quick‑Start Scripts
+
+### 5.1 Redacting Logs (Node.js example)
+
+```js
+// logger.js
+const winston = require('winston');
+const { combine, timestamp, printf } = winston.format;
+
+const redact = (info) => {
+  if (info.message.includes('api_key=')) {
+    info.message = info.message.replace(/api_key=\w+/g, 'api_key=REDACTED');
+  }
+  return info;
+};
+
+const logger = winston.createLogger({
+  level: 'info',
+  format: combine(
+    timestamp(),
+    redact(),
+    printf(({ timestamp, level, message }) => `${timestamp} [${level}]: ${message}`)
+  ),
+  transports: [new winston.transports.Console()]
+});
+
+module.exports = logger;
+```
+
+### 5.2 .env‑Based Secret Injection
+
+```bash
+# Docker Compose example
+version: '3.8'
+services:
+  app:
+    image: myapp:latest
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - API_KEY=${API_KEY}
+```
+
+Make sure `.env` is **never** committed (`.gitignore`).
+
+### 5.3 Secret Rotation Script (Python)
+
+```python
+import boto3
+from botocore.exceptions import ClientError
+
+def rotate_api_key(name):
+    client = boto3.client('secretsmanager')
+    try:
+        # Create a new secret value
+        new_value = 'new-secret-' + secrets.token_hex(16)
+        client.put_secret_value(SecretId=name, SecretString=new_value)
+        # Update config / env files (pseudo‑code)
+        update_app_config(name, new_value)
+        print(f"Rotated {name}")
+    except ClientError as e:
+        print(f"Error rotating {name}: {e}")
+
+if __name__ == "__main__":
+    rotate_api_key('myapp/api_key')
+```
+
+---
+
+## 6. Final Take‑Home
+
+1. **The exposed API key is a *critical* breach.** Revoke, rotate, and purge logs now.
+2. **No .env discipline + no fallback auth** are *moderate hygiene gaps* that will make future leaks harder to manage. Fix them before the next incident.
+3. **Automate everything** – secrets, logging, scanning, and rotation.
+4. **Treat logs as a first‑class asset** – encrypt, restrict, and scrub them.
+5. **Add fallback & validation** to protect users and services from denial‑of‑service or injection attacks.
+
+Once the immediate actions are done, move into the hygiene checklist and establish a continuous improvement loop. This will transform the incident from a one‑off leak into a learning opportunity that hardens your entire stack.
+📄 Report saved to demo_assets/risk_advice_report.md
+🔧 Triggering alert...
+🔗 Verifying TiDB connection...
+✅ TiDB connection verified.
+📢 Local Alert:
+
+# 🧠 DataGuardian Agent – Risk Summary
+
+## 🔍 Tagged Logs
+🔴 Critical → api_key=12345EXPOSED
+🟠 Moderate → User login failed: no fallback configured
+🟠 Moderate → Missing .env discipline in deployment
+🟢 Low → Secure endpoint hit with malformed payload
+🔴 Critical → api_key=12345EXPOSED
+🟠 Moderate → User login failed: no fallback configured
+🟠 Moderate → Missing .env discipline in deployment
+🟢 Low → Secure endpoint hit with malformed payload
+🔴 Critical → api_key=12345EXPOSED
+🟠 Moderate → User login failed: no fallback configured
+🟠 Moderate → Missing .env discipline in deployment
+🟢 Low → Secure endpoint hit with malformed payload
+
+## 🛠️ Recommendations
+## 1. Quick‑Fire Assessment
+
+| Severity | Log | What it tells us | Immediate risk |
+|----------|-----|------------------|----------------|
+| 🔴 Critical | `api_key=12345EXPOSED` | **Plain‑text API key in the logs** – the key is now visible to anyone who can read the log file or the console. | **High** – an attacker can impersonate your service, exfiltrate data, or pay for services. |
+| 🟠 Moderate | `User login failed: no fallback configured` | No secondary authentication path (e.g., 2FA, recovery email, phone). | **Medium** – if a legitimate user is locked out, it can become a denial‑of‑service vector. |
+| 🟠 Moderate | `Missing .env discipline in deployment` | Secrets are likely baked into the code or committed to the repository. | **Medium** – increases the surface area for leaks and makes rotation hard. |
+| 🟢 Low | `Secure endpoint hit with malformed payload` | Malformed request – could be a benign test or an attempt to probe for vulnerabilities. | **Low** – still worth hardening. |
+
+**Bottom line:** The repeated `api_key=12345EXPOSED` entries indicate a **credential leakage** that must be addressed immediately. The other moderate issues point to *poor hygiene* that will make future incidents harder to contain.
+
+---
+
+## 2. What’s Wrong? – Detailed Breakdown
+
+| Category | Problem | Why it matters |
+|----------|---------|----------------|
+| **Credential Leak** | API key printed in logs | Anyone with read access to the logs can reuse the key. |
+| | Hard‑coded or exposed in code | Hard to rotate; may be in source control. |
+| **Fallback Gap** | No secondary auth path | Users stuck, potential for credential stuffing attacks. |
+| **Hygiene Gap** | No .env discipline | Secrets are in code, not environment. |
+| | No log scrubbing | Sensitive data stays in logs. |
+| | No payload validation | Open to injection or DoS. |
+
+---
+
+## 3. Recovery Plan – Immediate & Long‑Term
+
+### 3.1 Immediate Actions (≤ 1 h)
+
+| Step | What | Why |
+|------|------|-----|
+| **Revoke & Rotate** | Revoke the exposed API key, generate a new one, and update all systems that use it. | Stops anycurrent misuse. |
+| **Audit the Source** | Search the repo & CI logs for `12345` or the key pattern. | Detect if the key is stored elsewhere. |
+| **Purge Logs** | Delete or redact the log entries that contain the key. | Prevent future accidental exposure. |
+| **Disable Logging of Sensitive Data** | Temporarily suppress logging of any request headers, query params, or body that might contain secrets. | Stops the leak from continuing. |
+| **Notify Stakeholders** | Inform security, ops, and product teams. | Enables coordinated response and communication. |
+| **Run a Quick Scan** | Use a secret‑scanning tool (e.g., TruffleHog, GitLeaks, or your own regex) to find other leaks. | Catch any additional exposed credentials. |
+
+### 3.2 Hygiene & Process Fixes (≤ 1 day)
+
+| Fix | Implementation |
+|-----|----------------|
+| **.env Discipline** | • Store all secrets in `.env` files **only** for local dev.<br>• Use environment variables in production (e.g., via Docker secrets, K8s secrets, or CI/CD env vars). |
+| **Secrets Manager** | Adopt a dedicated secrets manager (HashiCorp Vault, AWS Secrets Manager, GCP Secret Manager). |
+| **CI/CD Pipeline** | • Mark secrets as protected variables.<br>• Prevent them from being printed in logs (`echo $SECRET` → `echo "******"`). |
+| **Code Review Checklist** | Add a “No Secrets in Code” rule. |
+| **Automated Secret Scanning** | Run scans on every PR and on a nightly schedule. |
+| **Logging Policy** | • Strip out headers, query params, and body fields that contain secrets.<br>• Use a log‑scrubbing middleware. |
+| **Encryption at Rest** | Ensure logs are encrypted (e.g., CloudWatch logs encryption, Loki, Elasticsearch with encryption). |
+| **Access Controls** | Limit who can read logs to the minimum required. |
+| **Monitoring / Alerting** | Create alerts for any new `api_key=` patterns in logs. |
+
+### 3.3 Authentication & Fallback Improvements (≤ 2 days)
+
+| Gap | Fix |
+|-----|-----|
+| No fallback | • Implement 2FA (TOTP, SMS, Authenticator app).<br>• Add “Forgot password” flow that uses a verified email or phone. |
+| No rate limiting | Add per‑IP and per‑user rate limits to prevent brute force. |
+| No payload validation | Use a schema validator (JSON Schema, Joi, etc.) and reject malformed requests early. |
+| WAF / IDS | Deploy a Web Application Firewall or an IDS that flags malformed or suspicious payloads. |
+
+### 3.4 Long‑Term Strategy (≥ 1 week)
+
+| Initiative | Goal |
+|------------|------|
+| **Secret Lifecycle Management** | Automate rotation (e.g., every 90 days) and enforce revocation on compromise. |
+| **Zero‑Trust Architecture** | Treat all network traffic as untrusted; enforce least‑privilege for services. |
+| **Security Training** | Regular training for developers on secrets hygiene, logging, and secure coding. |
+| **Incident Response Playbook** | Define steps for credential leaks, including communication templates. |
+| **Compliance Audits** | Run periodic audits (SOC‑2, ISO 27001, etc.) to ensure controls are effective. |
+| **Continuous Monitoring** | Deploy SIEM or SOAR that correlates logs, detects anomalies, and triggers auto‑remediation. |
+
+---
+
+## 4. Practical Checklist
+
+| ✅ | Item | Status |
+|----|------|--------|
+|  | 🔴 **Revoke & rotate API key** | ☐ |
+|  | 🔴 **Delete/Redact exposed log entries** | ☐ |
+|  | 🔴 **Audit source for other leaks** | ☐ |
+|  | 🟠 **Implement .env discipline** | ☐ |
+|  | 🟠 **Move secrets to a secrets manager** | ☐ |
+|  | 🟠 **Add log‑scrubbing middleware** | ☐ |
+|  | 🟠 **Add fallback auth (2FA, recovery)** | ☐ |
+|  | 🟠 **Add rate limiting** | ☐ |
+|  | 🟠 **Validate incoming payloads** | ☐ |
+|  | 🟠 **Deploy WAF / IDS** | ☐ |
+|  | 🟠 **Set up automated secret scanning** | ☐ |
+|  | 🟠 **Encrypt logs at rest** | ☐ |
+|  | 🟠 **Restrict log access** | ☐ |
+|  | 🟠 **Create monitoring alerts** | ☐ |
+|  | 🟠 **Run compliance audit** | ☐ |
+
+Mark each item as “Done” once you’ve completed it. Keep the checklist in your project’s repo or as a Jira epic to ensure visibility.
+
+---
+
+## 5. Quick‑Start Scripts
+
+### 5.1 Redacting Logs (Node.js example)
+
+```js
+// logger.js
+const winston = require('winston');
+const { combine, timestamp, printf } = winston.format;
+
+const redact = (info) => {
+  if (info.message.includes('api_key=')) {
+    info.message = info.message.replace(/api_key=\w+/g, 'api_key=REDACTED');
+  }
+  return info;
+};
+
+const logger = winston.createLogger({
+  level: 'info',
+  format: combine(
+    timestamp(),
+    redact(),
+    printf(({ timestamp, level, message }) => `${timestamp} [${level}]: ${message}`)
+  ),
+  transports: [new winston.transports.Console()]
+});
+
+module.exports = logger;
+```
+
+### 5.2 .env‑Based Secret Injection
+
+```bash
+# Docker Compose example
+version: '3.8'
+services:
+  app:
+    image: myapp:latest
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - API_KEY=${API_KEY}
+```
+
+Make sure `.env` is **never** committed (`.gitignore`).
+
+### 5.3 Secret Rotation Script (Python)
+
+```python
+import boto3
+from botocore.exceptions import ClientError
+
+def rotate_api_key(name):
+    client = boto3.client('secretsmanager')
+    try:
+        # Create a new secret value
+        new_value = 'new-secret-' + secrets.token_hex(16)
+        client.put_secret_value(SecretId=name, SecretString=new_value)
+        # Update config / env files (pseudo‑code)
+        update_app_config(name, new_value)
+        print(f"Rotated {name}")
+    except ClientError as e:
+        print(f"Error rotating {name}: {e}")
+
+if __name__ == "__main__":
+    rotate_api_key('myapp/api_key')
+```
+
+---
+
+## 6. Final Take‑Home
+
+1. **The exposed API key is a *critical* breach.** Revoke, rotate, and purge logs now.
+2. **No .env discipline + no fallback auth** are *moderate hygiene gaps* that will make future leaks harder to manage. Fix them before the next incident.
+3. **Automate everything** – secrets, logging, scanning, and rotation.
+4. **Treat logs as a first‑class asset** – encrypt, restrict, and scrub them.
+5. **Add fallback & validation** to protect users and services from denial‑of‑service or injection attacks.
+
+Once the immediate actions are done, move into the hygiene checklist and establish a continuous improvement loop. This will transform the incident from a one‑off leak into a learning opportunity that hardens your entire stack.
+
+✅ Pipeline completed successfully.
+
+(venv) C:\Users\admin\OneDrive\Desktop\2026SOS\HACKATHONS\Data Guardian Agent>python app.py
+ * Serving Flask app 'app'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 102-526-792
+127.0.0.1 - - [02/Sep/2025 03:03:09] "GET / HTTP/1.1" 200 -
