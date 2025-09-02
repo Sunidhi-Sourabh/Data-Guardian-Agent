@@ -49,7 +49,12 @@ dashboard.html       → Frontend layout with Chart.js and advisory panel
 git clone https://github.com/sunidhisourabh/DataGuardian-Agent.git
 cd DataGuardian-Agent
 
-## 2. Create .env from Template
+## 2. Create and Activate Virtual Environment
+python -m venv venv  
+source venv/bin/activate      # macOS/Linux  
+venv\Scripts\activate         # Windows
+
+## 3. Create .env from Template
 cp .env.template .env
 
   Fill in your credentials:
@@ -60,14 +65,14 @@ TIDB_PASSWORD=your_tidb_password
 TIDB_DATABASE=data_guardian  
 WEBHOOK_URL=https://your_webhook_url
 
-## 3. Install Dependencies
+## 4. Install Dependencies
 pip install flask pymysql markdown2 python-dotenv
 
 Or use:
 
 pip install -r requirements.txt
 
-## 4. Run the Pipeline
+## 5. Run the Pipeline
 python run_pipeline.py         #One Click - Risk Report Generated
 
 Or one-by-one command:
@@ -77,7 +82,7 @@ python search_risks.py
 python summarize_risks.py  
 python trigger_alert.py --mode webhook
 
-## 5.Launch the Dashboard
+## 6.Launch the Dashboard
 python app.py               
 (Visit http://localhost:5000 to view the agent’s dashboard.)
 
