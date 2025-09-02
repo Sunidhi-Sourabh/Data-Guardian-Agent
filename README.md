@@ -26,13 +26,19 @@ Designed for indie developers, this agent runs locally, respects credential boun
 
 ## 🧱 Architecture  
 ingest_logs.py       → Ingest logs into TiDB
+
 search_risks.py      → Detect hygiene risks and assign scores
 
 summarize_risks.py   → Summarize issues and suggest fixes via GPT-OSS
+
 trigger_alert.py     → Push advisory report via webhook or CLI
+
 fallback.py          → Provide branded fallback messages and log events
+
 run_pipeline.py      → One-click orchestration of the full pipeline
+
 app.py               → Flask server for dashboard rendering
+
 dashboard.html       → Frontend layout with Chart.js and advisory panel
 
 ---
