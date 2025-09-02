@@ -1,0 +1,7 @@
+Microsoft Windows [Version 10.0.26100.5074]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\admin>cd "C:\Users\admin\OneDrive\Desktop\2026SOS\HACKATHONS\Data Guardian Agent"
+C:\Users\admin\OneDrive\Desktop\2026SOS\HACKATHONS\Data Guardian Agent>python -m venv venv
+C:\Users\admin\OneDrive\Desktop\2026SOS\HACKATHONS\Data Guardian Agent>venv\Scripts\activate
+(venv) C:\Users\admin\OneDrive\Desktop\2026SOS\HACKATHONS\Data Guardian Agent>
