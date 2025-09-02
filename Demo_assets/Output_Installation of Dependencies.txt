@@ -1,0 +1,70 @@
+Microsoft Windows [Version 10.0.26100.5074]
+(c) Microsoft Corporation. All rights reserved.
+
+(venv) C:\Users\admin\OneDrive\Desktop\2026SOS\HACKATHONS\Data Guardian Agent>pip install -r requirements.txt
+Collecting requests (from -r requirements.txt (line 1))
+  Using cached requests-2.32.5-py3-none-any.whl.metadata (4.9 kB)
+Collecting python-dotenv (from -r requirements.txt (line 2))
+  Downloading python_dotenv-1.1.1-py3-none-any.whl.metadata (24 kB)
+Collecting mysql-connector-python (from -r requirements.txt (line 3))
+  Downloading mysql_connector_python-9.4.0-cp313-cp313-win_amd64.whl.metadata (7.7 kB)
+Collecting argparse (from -r requirements.txt (line 4))
+  Downloading argparse-1.4.0-py2.py3-none-any.whl.metadata (2.8 kB)
+Collecting charset_normalizer<4,>=2 (from requests->-r requirements.txt (line 1))
+  Using cached charset_normalizer-3.4.3-cp313-cp313-win_amd64.whl.metadata (37 kB)
+Collecting idna<4,>=2.5 (from requests->-r requirements.txt (line 1))
+  Using cached idna-3.10-py3-none-any.whl.metadata (10 kB)
+Collecting urllib3<3,>=1.21.1 (from requests->-r requirements.txt (line 1))
+  Using cached urllib3-2.5.0-py3-none-any.whl.metadata (6.5 kB)
+Collecting certifi>=2017.4.17 (from requests->-r requirements.txt (line 1))
+  Using cached certifi-2025.8.3-py3-none-any.whl.metadata (2.4 kB)
+Using cached requests-2.32.5-py3-none-any.whl (64 kB)
+Using cached charset_normalizer-3.4.3-cp313-cp313-win_amd64.whl (107 kB)
+Using cached idna-3.10-py3-none-any.whl (70 kB)
+Using cached urllib3-2.5.0-py3-none-any.whl (129 kB)
+Downloading python_dotenv-1.1.1-py3-none-any.whl (20 kB)
+Downloading mysql_connector_python-9.4.0-cp313-cp313-win_amd64.whl (16.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.4/16.4 MB 22.7 MB/s  0:00:00
+Downloading argparse-1.4.0-py2.py3-none-any.whl (23 kB)
+Using cached certifi-2025.8.3-py3-none-any.whl (161 kB)
+Installing collected packages: argparse, urllib3, python-dotenv, mysql-connector-python, idna, charset_normalizer, certifi, requests
+Successfully installed argparse-1.4.0 certifi-2025.8.3 charset_normalizer-3.4.3 idna-3.10 mysql-connector-python-9.4.0 python-dotenv-1.1.1 requests-2.32.5 urllib3-2.5.0
+
+(venv) C:\Users\admin\OneDrive\Desktop\2026SOS\HACKATHONS\Data Guardian Agent>pip install pymysql
+Collecting pymysql
+  Downloading pymysql-1.1.2-py3-none-any.whl.metadata (4.3 kB)
+Downloading pymysql-1.1.2-py3-none-any.whl (45 kB)
+Installing collected packages: pymysql
+Successfully installed pymysql-1.1.2
+
+(venv) C:\Users\admin\OneDrive\Desktop\2026SOS\HACKATHONS\Data Guardian Agent>pip install flask pymysql markdown2
+Collecting flask
+  Downloading flask-3.1.2-py3-none-any.whl.metadata (3.2 kB)
+Requirement already satisfied: pymysql in c:\users\admin\onedrive\desktop\2026sos\hackathons\data guardian agent\venv\lib\site-packages (1.1.2)
+Collecting markdown2
+  Downloading markdown2-2.5.4-py3-none-any.whl.metadata (2.1 kB)
+Collecting blinker>=1.9.0 (from flask)
+  Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+Collecting click>=8.1.3 (from flask)
+  Downloading click-8.2.1-py3-none-any.whl.metadata (2.5 kB)
+Collecting itsdangerous>=2.2.0 (from flask)
+  Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+Collecting jinja2>=3.1.2 (from flask)
+  Using cached jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting markupsafe>=2.1.1 (from flask)
+  Using cached MarkupSafe-3.0.2-cp313-cp313-win_amd64.whl.metadata (4.1 kB)
+Collecting werkzeug>=3.1.0 (from flask)
+  Downloading werkzeug-3.1.3-py3-none-any.whl.metadata (3.7 kB)
+Collecting colorama (from click>=8.1.3->flask)
+  Using cached colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+Downloading flask-3.1.2-py3-none-any.whl (103 kB)
+Downloading markdown2-2.5.4-py3-none-any.whl (49 kB)
+Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+Downloading click-8.2.1-py3-none-any.whl (102 kB)
+Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+Using cached jinja2-3.1.6-py3-none-any.whl (134 kB)
+Using cached MarkupSafe-3.0.2-cp313-cp313-win_amd64.whl (15 kB)
+Downloading werkzeug-3.1.3-py3-none-any.whl (224 kB)
+Using cached colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Installing collected packages: markupsafe, markdown2, itsdangerous, colorama, blinker, werkzeug, jinja2, click, flask
+Successfully installed blinker-1.9.0 click-8.2.1 colorama-0.4.6 flask-3.1.2 itsdangerous-2.2.0 jinja2-3.1.6 markdown2-2.5.4 markupsafe-3.0.2 werkzeug-3.1.3
