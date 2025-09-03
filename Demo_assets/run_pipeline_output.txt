@@ -10,10 +10,10 @@ C:\Users\admin\OneDrive\Desktop\2026SOS\HACKATHONS\Data Guardian Agent>venv\Scri
 
 🔧 Ingesting logs...
 🔍 Debugging .env load:
-TIDB_HOST: gateway01.ap-northeast-1.prod.aws.tidbcloud.com
-TIDB_USER: 7GoMhJWyDf3WUfN.root
-TIDB_PASSWORD: vCEHR58TdJUgJABu
-TIDB_DATABASE: data_guardian
+TIDB_HOST="your_tidb_host_here"
+TIDB_USER="your_tidb_user_here"
+TIDB_PASSWORD="your_tidb_password_here"
+TIDB_DATABASE="data_guardian"
 
 🔗 Connecting to TiDB (no DB)...
 ✅ Database 'data_guardian' created or already exists.
