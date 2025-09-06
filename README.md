@@ -118,6 +118,7 @@ python app.py
 ---
 
 ## 🗄️ TiDB Table Schema & Index SQL
+<pre>```sql-- 
 -- Table for logging badge events triggered by agents
 CREATE TABLE badge_event (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -154,7 +155,8 @@ CREATE INDEX idx_user_id ON badge_event(user_id);
 CREATE INDEX idx_verified ON badge_event(verified);
 CREATE INDEX idx_created_at ON badge_event(created_at);
 CREATE INDEX idx_report_id ON agent_dispatch(report_id);
-CREATE INDEX idx_agent_id ON agent_dispatch(agent_id);
+CREATE INDEX idx_agent_id ON agent_dispatch(agent_id); 
+ ```</pre>
 
 ---
 
