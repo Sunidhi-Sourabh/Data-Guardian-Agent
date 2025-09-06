@@ -105,6 +105,60 @@ python app.py
 
 ---
 
+## 🧰 Tech Stack
+- Backend: Python (Flask)
+- Database: TiDB Serverless (SQL + JSON support)
+- Agent Logic: Modular badge verification, fallback triggers, GROQ API,GPT-OSS summarization
+- Frontend: Bootstrap 5, Chart.js, custom CSS animations
+- Data Logging: TiDB tables for badge events, agent snapshots, and fallback traces
+- Security: .env credential hygiene, GitGuardian integration
+- Deployment:GitHub (public repo)
+- Demo: Cinematic walkthrough on YouTube
+
+---
+
+## 🗄️ TiDB Table Schema & Index SQL
+-- Table for logging badge events triggered by agents
+CREATE TABLE badge_events (
+  event_id VARCHAR(36) PRIMARY KEY,
+  user_id VARCHAR(64) NOT NULL,
+  badge_type VARCHAR(32),
+  content_url TEXT,
+  agent_snapshot JSON,
+  fallback_triggered BOOLEAN DEFAULT FALSE,
+  verified BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table for storing summarized risk reports
+CREATE TABLE risk_reports (
+  report_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  user_id VARCHAR(64),
+  summary TEXT,
+  risk_score INT,
+  advisory TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table for tracking alert dispatch status
+CREATE TABLE alert_logs (
+  alert_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  report_id BIGINT,
+  dispatch_mode VARCHAR(16), -- webhook or CLI
+  status VARCHAR(16),        -- success, failed, fallback
+  fallback_message TEXT,
+  sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Indexes for efficient querying
+CREATE INDEX idx_user_id ON badge_events(user_id);
+CREATE INDEX idx_verified ON badge_events(verified);
+CREATE INDEX idx_fallback ON badge_events(fallback_triggered);
+CREATE INDEX idx_risk_score ON risk_reports(risk_score);
+CREATE INDEX idx_dispatch_mode ON alert_logs(dispatch_mode);
+
+---
+
 ## 🎬 Demo Walkthrough
 To view the agent in action:
 - Run run_pipeline.py to execute all steps
