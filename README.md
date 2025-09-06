@@ -119,47 +119,42 @@ python app.py
 
 ## 🗄️ TiDB Table Schema & Index SQL
 -- Table for logging badge events triggered by agents
-
-CREATE TABLE badge_events (
-  event_id VARCHAR(36) PRIMARY KEY,
-  user_id VARCHAR(64) NOT NULL,
-  badge_type VARCHAR(32),
-  content_url TEXT,
-  agent_snapshot JSON,
-  fallback_triggered BOOLEAN DEFAULT FALSE,
-  verified BOOLEAN DEFAULT FALSE,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE badge_event (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id VARCHAR(100) NOT NULL,
+    badge VARCHAR(100) NOT NULL,
+    type TEXT,
+    agent_id JSON,
+    skill JSON,
+    challenge BOOLEAN DEFAULT FALSE,
+    verified BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table for storing summarized risk reports
-
-CREATE TABLE risk_reports (
-  report_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  user_id VARCHAR(64),
-  summary TEXT,
-  risk_score INT,
-  advisory TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- Table for storing summarized agent reports
+CREATE TABLE agent_report (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id VARCHAR(100) NOT NULL,
+    agent_id VARCHAR(100) NOT NULL,
+    report JSON,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table for tracking alert dispatch status
-
-CREATE TABLE alert_logs (
-  alert_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  report_id BIGINT,
-  dispatch_mode VARCHAR(16), -- webhook or CLI
-  status VARCHAR(16),        -- success, failed, fallback
-  fallback_message TEXT,
-  sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- Table to track agent dispatch status
+CREATE TABLE agent_dispatch (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    report_id BIGINT,
+    dispatch_status VARCHAR(100),
+    agent_id VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Indexes for efficient querying
-
-CREATE INDEX idx_user_id ON badge_events(user_id);
-CREATE INDEX idx_verified ON badge_events(verified);
-CREATE INDEX idx_fallback ON badge_events(fallback_triggered);
-CREATE INDEX idx_risk_score ON risk_reports(risk_score);
-CREATE INDEX idx_dispatch_mode ON alert_logs(dispatch_mode);
+CREATE INDEX idx_user_id ON badge_event(user_id);
+CREATE INDEX idx_verified ON badge_event(verified);
+CREATE INDEX idx_created_at ON badge_event(created_at);
+CREATE INDEX idx_report_id ON agent_dispatch(report_id);
+CREATE INDEX idx_agent_id ON agent_dispatch(agent_id);
 
 ---
 
