@@ -119,6 +119,7 @@ python app.py
 
 ## 🗄️ TiDB Table Schema & Index SQL
 -- Table for logging badge events triggered by agents
+
 CREATE TABLE badge_events (
   event_id VARCHAR(36) PRIMARY KEY,
   user_id VARCHAR(64) NOT NULL,
@@ -131,6 +132,7 @@ CREATE TABLE badge_events (
 );
 
 -- Table for storing summarized risk reports
+
 CREATE TABLE risk_reports (
   report_id BIGINT PRIMARY KEY AUTO_INCREMENT,
   user_id VARCHAR(64),
@@ -141,6 +143,7 @@ CREATE TABLE risk_reports (
 );
 
 -- Table for tracking alert dispatch status
+
 CREATE TABLE alert_logs (
   alert_id BIGINT PRIMARY KEY AUTO_INCREMENT,
   report_id BIGINT,
@@ -151,6 +154,7 @@ CREATE TABLE alert_logs (
 );
 
 -- Indexes for efficient querying
+
 CREATE INDEX idx_user_id ON badge_events(user_id);
 CREATE INDEX idx_verified ON badge_events(verified);
 CREATE INDEX idx_fallback ON badge_events(fallback_triggered);
